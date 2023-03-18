@@ -4,9 +4,20 @@ const app = express();
 app.get('/api/data', (req, res) => {
   // Read the data from the JSON file
   const data = require('./data.json');
-  // Send the JSON data as the response
-  res.json(data);
   
+  // Get the current date
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const yyyy = today.getFullYear();
+  const currentDate = yyyy + '-' + mm + '-' + dd;
+
+  // Filter the JSON data based on the current date
+  const filteredData = data.filter(element => element.Date === currentDate);
+  
+  // Send the filtered data as the response
+  console.log(filteredData[0]['Hijri Date']);
+  res.json(filteredData);
 });
 
 const port = 5000;
